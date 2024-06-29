@@ -20,6 +20,7 @@ function storeScrollPosition() {
   const siteWrapper = document.querySelector(".site-wrapper");
   if (siteWrapper) {
     navigationScrollTop = siteWrapper.scrollTop;
+    console.log("Stored scroll position:", navigationScrollTop);
   }
 }
 
@@ -27,8 +28,19 @@ function restoreScrollPosition() {
   const siteWrapper = document.querySelector(".site-wrapper");
   if (siteWrapper) {
     siteWrapper.scrollTop = navigationScrollTop;
+    console.log("Restored scroll position to:", navigationScrollTop);
   }
 }
+
+// Add event listener to monitor scroll position changes
+document.addEventListener('DOMContentLoaded', function() {
+  const siteWrapper = document.querySelector(".site-wrapper");
+  if (siteWrapper) {
+    siteWrapper.addEventListener('scroll', function() {
+      console.log("Current scroll top:", siteWrapper.scrollTop);
+    });
+  }
+});
 
 // 👨‍🏫👨‍🏫 Constantly updates the navigationWidth variable whenever the user resizes their browser window. 👨‍🏫👨‍🏫 //
 
