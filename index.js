@@ -74,6 +74,7 @@ if (!prefersReducedMotion) {
                   targets: navigation,
                   before: () => {
                     navigation.style.display = "flex";
+                    restoreScrollPosition();
                     navigation.style.width = `${navigationWidth}px`;
                     projectWrapper.style.position = "fixed";
                   },
