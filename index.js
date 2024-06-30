@@ -88,7 +88,6 @@ if (!prefersReducedMotion) {
                     navigation.style.display = "flex";
                     navigation.style.width = `${navigationWidth}px`;
                     projectWrapper.style.position = "fixed";
-                    storeScrollPosition();
                   },
                   translateX: [`${navigationTargetPosition}px`, `-${mobileNavigationTarget}px`],
                   easing: "spring(1, 93, 15, 5)",
