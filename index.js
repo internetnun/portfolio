@@ -20,7 +20,6 @@ function storeScrollPosition() {
   const siteWrapper = document.querySelector(".site-wrapper");
   if (siteWrapper) {
     navigationScrollTop = siteWrapper.scrollTop;
-    console.log("Stored scroll position:", navigationScrollTop);
   }
 }
 
@@ -28,19 +27,8 @@ function restoreScrollPosition() {
   const siteWrapper = document.querySelector(".site-wrapper");
   if (siteWrapper) {
     siteWrapper.scrollTop = navigationScrollTop;
-    console.log("Restored scroll position to:", navigationScrollTop);
   }
 }
-
-// Add event listener to monitor scroll position changes
-document.addEventListener('DOMContentLoaded', function() {
-  const siteWrapper = document.querySelector(".site-wrapper");
-  if (siteWrapper) {
-    siteWrapper.addEventListener('scroll', function() {
-      console.log("Current scroll top:", siteWrapper.scrollTop);
-    });
-  }
-});
 
 // 👨‍🏫👨‍🏫 Constantly updates the navigationWidth variable whenever the user resizes their browser window. 👨‍🏫👨‍🏫 //
 
@@ -93,7 +81,6 @@ if (!prefersReducedMotion) {
                   easing: "spring(1, 93, 15, 5)",
                   complete: () => {
                     navigation.style.transform = "none";
-                    navigation.style.position = "";
                     navigation.style.display = "";
                     navigation.style.width = "";
                     projectWrapper.style.position = "";
@@ -217,6 +204,7 @@ if (!prefersReducedMotion) {
                     projectWrapper.style.position = "fixed";
                     navigation.style.width = `${localNavigationWidth}px`;
                     restoreScrollPosition();
+                    
                   },
                   translateX: [`-${mobileNavigationTarget}px`, `${navigationTargetPosition}px`],
                   easing: "spring(1, 93, 15, 5)",
@@ -225,7 +213,6 @@ if (!prefersReducedMotion) {
                     projectWrapper.style.position = "";
                     navigation.style.display = "";
                     navigation.style.width = "";
-
                   },
                 }).finished,
                 anime({
@@ -427,12 +414,12 @@ swup.hooks.on('page:view', (visit) => {
 
 swup.hooks.on('visit:start', (visit) => {
   const fromHomeToProject = visit.from.url === '/' && /\/project/.test(visit.to.url);
-  const fromProjectToHome = /\/project/.test(visit.from.url) && visit.to.url === '/';
 
   if (fromHomeToProject) {
     storeScrollPosition();
   }
 });
+
 
 }
 
@@ -608,16 +595,17 @@ document.addEventListener("DOMContentLoaded", function () {
 // 👨‍🏫👨‍🏫 This drives the little orange reading progress dot on open projects. 👨‍🏫👨‍🏫 // 
 
 function ScrollBarProgress() {
-  const elmScroll = document.querySelector(".project-container").scrollTop;
-  const sHeight = document.querySelector(".project-container").scrollHeight;
-  const cHeight = document.querySelector(".project-container").clientHeight;
-  const maxScroll = sHeight - cHeight; // Maximum scrollable distance
-  const scrolled = (elmScroll / maxScroll) * 79.5; // Calculate percentage
-  const clampedScrolled = Math.min(Math.max(scrolled, 0), 100); // Clamp the value between 0 and 100
+  const scrollIndicator = document.querySelector(".scroll-indicator");
+  if (scrollIndicator) {
+    const elmScroll = document.querySelector(".project-container").scrollTop;
+    const sHeight = document.querySelector(".project-container").scrollHeight;
+    const cHeight = document.querySelector(".project-container").clientHeight;
+    const maxScroll = sHeight - cHeight; // Maximum scrollable distance
+    const scrolled = (elmScroll / maxScroll) * 79.5; // Calculate percentage
+    const clampedScrolled = Math.min(Math.max(scrolled, 0), 100); // Clamp the value between 0 and 100
 
-  const progress = (document.querySelector(
-    ".scroll-indicator"
-  ).style.top = `calc(${clampedScrolled}% + 20px)`);
+    scrollIndicator.style.top = `calc(${clampedScrolled}% + 20px)`;
+  }
 }
 
 const elm = document.querySelector(".project-container");
