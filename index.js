@@ -38,7 +38,6 @@ window.addEventListener('resize', updateNavigationWidth);
 
 // 👨‍🏫👨‍🏫 Initializes Swup.JS, the plugin used to handle the page transition animations. Also uses Anime.JS to allow for spring animations. 👨‍🏫👨‍🏫 //
 
-
 if (!prefersReducedMotion) {
   const swup = new Swup({
   animateHistoryBrowsing: true,
@@ -112,7 +111,7 @@ if (!prefersReducedMotion) {
                   targets: scrim,
                   opacity: [0, 1],
                   easing:"easeInOutQuad",
-                  duration: 250,
+                  duration: 150,
                 }).finished,
                 anime({
                   targets: mobileNavButton,
@@ -162,7 +161,7 @@ if (!prefersReducedMotion) {
                   targets: scrim,
                   opacity: [0, 1],
                   easing:"easeInOutQuad",
-                  duration: 250,
+                  duration: 150,
                 }).finished,
                 anime({
                   targets: mobileNavButton,
@@ -386,13 +385,23 @@ document.addEventListener('DOMContentLoaded', function() {
           });
       });
   }
-  
+ 
+
+// 👨‍🏫👨‍🏫 This forces webflow interactions to refresh each time the page loads so they continue to work. 👨‍🏫👨‍🏫 //
+  function reinitializeWebflowInteractions() {
+    Webflow.destroy();
+    Webflow.ready();
+    window.Webflow?.require('ix2').init();
+  }
+
   // Initialize on page load
   initializeHoverAnimation();
-  
+  reinitializeWebflowInteractions();
+
   // Reinitialize on swup.js page transition
   swup.hooks.on('page:view', () => {
       initializeHoverAnimation();
+      reinitializeWebflowInteractions();
   });
 });
 
@@ -422,6 +431,8 @@ swup.hooks.on('visit:start', (visit) => {
 
 
 }
+
+
 
 // 👨‍🏫👨‍🏫 This makes the "About Me" overlay functional. Without this code, about me cannot work. It also includes some accessibilty improvements so the browser focus is hopefully more usable. 👨‍🏫👨‍🏫  // 
 
